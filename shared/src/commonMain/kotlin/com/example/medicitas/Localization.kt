@@ -100,6 +100,10 @@ data class AppStrings(
     // Emergency Screen
     val navEmergencyLabel: String,
     val emergencyTitle: String,
+    val emergencyQuestion: String,
+    val emergencySubtitle: String,
+    val helpMe: String,
+    val cancel: String,
     val requestAmbulance: String,
     val callEmergencies: String
 )
@@ -190,6 +194,10 @@ val EnglishStrings = AppStrings(
 
     navEmergencyLabel = "Emergency",
     emergencyTitle = "Emergency Actions",
+    emergencyQuestion = "Are you in Emergency?",
+    emergencySubtitle = "Press the button below and help will reach you soon.",
+    helpMe = "HELP ME!",
+    cancel = "CANCEL",
     requestAmbulance = "Request an ambulance",
     callEmergencies = "Call emergencies"
 )
@@ -280,6 +288,10 @@ val SpanishStrings = AppStrings(
 
     navEmergencyLabel = "Emergencia",
     emergencyTitle = "Acciones de Emergencia",
+    emergencyQuestion = "¿Estás en una emergencia?",
+    emergencySubtitle = "Presiona el botón de abajo y la ayuda llegará pronto.",
+    helpMe = "¡AYÚDAME!",
+    cancel = "CANCELAR",
     requestAmbulance = "Solicitar una ambulancia",
     callEmergencies = "Llamar a emergencias"
 )

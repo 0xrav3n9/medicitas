@@ -12,6 +12,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.Place
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.*
@@ -102,10 +104,10 @@ fun DoctorInfoCard(onChat: () -> Unit) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                DoctorActionItem(icon = Icons.Default.Call, label = strings.call)
-                DoctorActionItem(icon = Icons.Default.Email, label = strings.message, onClick = onChat)
-                DoctorActionItem(icon = Icons.Default.DateRange, label = strings.schedule)
-                DoctorActionItem(icon = Icons.Default.MoreHoriz, label = strings.detail)
+                DoctorActionItem(icon = Icons.Outlined.Call, label = strings.call)
+                DoctorActionItem(icon = Icons.Outlined.Email, label = strings.message, onClick = onChat)
+                DoctorActionItem(icon = Icons.Outlined.DateRange, label = strings.schedule)
+                DoctorActionItem(icon = Icons.Outlined.Info, label = strings.detail)
             }
         }
     }
@@ -165,7 +167,7 @@ fun AboutAppointmentSection() {
                     .background(Color(0xFFE6F0FF)),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Default.Person, contentDescription = null, tint = Color(0xFF007BFF))
+                Icon(Icons.Outlined.Place, contentDescription = null, tint = Color(0xFF007BFF))
             }
         }
     }

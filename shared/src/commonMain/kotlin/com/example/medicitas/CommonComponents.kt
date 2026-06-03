@@ -9,6 +9,7 @@ import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.outlined.Chat
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.rounded.Emergency
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -84,7 +85,7 @@ fun BottomNavigationBar(
                         NavBarItem(
                             selected = selectedTab == "Profile",
                             onClick = { onTabSelected("Profile") },
-                            icon = if (selectedTab == "Profile") Icons.Filled.AccountCircle else Icons.Outlined.AccountCircle,
+                            icon = if (selectedTab == "Profile") Icons.Filled.Person else Icons.Outlined.Person,
                             label = strings.navProfile
                         )
                     }
@@ -105,7 +106,7 @@ fun BottomNavigationBar(
                 elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp)
             ) {
                 Icon(
-                    imageVector = Icons.Default.Add, // White medical cross
+                    imageVector = Icons.Rounded.Emergency,
                     contentDescription = strings.navEmergencyLabel,
                     modifier = Modifier.size(32.dp)
                 )

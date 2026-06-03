@@ -1,105 +1,216 @@
 package com.example.medicitas
 
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.LocalHospital
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun EmergencyScreen(onBack: () -> Unit = {}) {
     val strings = LocalStrings.current
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(strings.navEmergencyLabel, style = MaterialTheme.typography.titleMedium) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
-            )
+    
+    // Logic for long press (3 seconds)
+    var isPressing by remember { mutableStateOf(false) }
+    var progress by remember { mutableFloatStateOf(0f) }
+    
+    // Launch timer logic only when pressing
+    LaunchedEffect(isPressing) {
+        if (isPressing) {
+            val startTime = getCurrentTimeMillis()
+            while (isPressing && progress < 1f) {
+                val elapsed = getCurrentTimeMillis() - startTime
+                progress = (elapsed / 3000f).coerceIn(0f, 1f)
+                if (progress >= 1f) {
+                    // Success: Only execute native interop after completion
+                    makePhoneCall("911")
+                    isPressing = false
+                }
+                delay(16) // ~60fps updates
+            }
+        } else {
+            progress = 0f
         }
-    ) { paddingValues ->
+    }
+
+    // Radar animations (Infinite and safe)
+    val infiniteTransition = rememberInfiniteTransition(label = "RadarTransition")
+    val rippleScale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 2.2f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "RippleScale"
+    )
+    val rippleAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.6f,
+        targetValue = 0f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "RippleAlpha"
+    )
+
+    // Pulse effect when pressing
+    val pressingScale by animateFloatAsState(
+        targetValue = if (isPressing) 1.25f else 1.0f,
+        animationSpec = tween(300, easing = FastOutSlowInEasing),
+        label = "PressingScale"
+    )
+
+    // Main UI container (Solid background for immediate rendering)
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = Color.White
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .background(Color(0xFFF8F9FA))
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Box(
-                modifier = Modifier
-                    .size(120.dp)
-                    .clip(CircleShape)
-                    .background(Color.Red.copy(alpha = 0.1f)),
-                contentAlignment = Alignment.Center
+            // Header Section
+            Column(
+                modifier = Modifier.padding(top = 60.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(
-                    imageVector = Icons.Default.LocalHospital,
-                    contentDescription = null,
-                    tint = Color.Red,
-                    modifier = Modifier.size(64.dp)
+                Text(
+                    text = strings.emergencyQuestion,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF0D1B34),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = strings.emergencySubtitle,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 24.dp)
                 )
             }
-            
-            Spacer(modifier = Modifier.height(32.dp))
-            
-            Text(
-                text = strings.emergencyTitle,
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
-            )
-            
-            Spacer(modifier = Modifier.height(48.dp))
-            
-            Button(
-                onClick = { /* Flow de geolocalización */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(64.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color.Black),
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp)
+
+            // Central Interaction Area
+            Box(
+                modifier = Modifier.size(320.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Default.LocalHospital, contentDescription = null)
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(text = strings.requestAmbulance, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                // Background Waves
+                Box(
+                    modifier = Modifier
+                        .size(180.dp)
+                        .scale(rippleScale)
+                        .clip(CircleShape)
+                        .background(Color.Red.copy(alpha = rippleAlpha))
+                )
+                
+                // Second Wave (Shifted)
+                val rippleScale2 by infiniteTransition.animateFloat(
+                    initialValue = 1f,
+                    targetValue = 2.2f,
+                    animationSpec = infiniteRepeatable(
+                        animation = tween(2000, delayMillis = 1000, easing = LinearEasing),
+                        repeatMode = RepeatMode.Restart
+                    ),
+                    label = "RippleScale2"
+                )
+                val rippleAlpha2 by infiniteTransition.animateFloat(
+                    initialValue = 0.6f,
+                    targetValue = 0f,
+                    animationSpec = infiniteRepeatable(
+                        animation = tween(2000, delayMillis = 1000, easing = LinearEasing),
+                        repeatMode = RepeatMode.Restart
+                    ),
+                    label = "RippleAlpha2"
+                )
+                Box(
+                    modifier = Modifier
+                        .size(180.dp)
+                        .scale(rippleScale2)
+                        .clip(CircleShape)
+                        .background(Color.Red.copy(alpha = rippleAlpha2))
+                )
+
+                // The "HELP ME!" Button
+                Box(
+                    modifier = Modifier
+                        .size(180.dp)
+                        .scale(pressingScale)
+                        .clip(CircleShape)
+                        .background(Color.Red)
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onPress = {
+                                    isPressing = true
+                                    try {
+                                        awaitRelease()
+                                    } finally {
+                                        isPressing = false
+                                    }
+                                }
+                            )
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = strings.helpMe,
+                            color = Color.White,
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 24.sp,
+                            textAlign = TextAlign.Center
+                        )
+                        if (isPressing) {
+                            Spacer(modifier = Modifier.height(12.dp))
+                            CircularProgressIndicator(
+                                progress = { progress },
+                                color = Color.White,
+                                strokeWidth = 4.dp,
+                                modifier = Modifier.size(36.dp),
+                                trackColor = Color.White.copy(alpha = 0.3f)
+                            )
+                        }
+                    }
+                }
             }
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            Button(
-                onClick = { makePhoneCall("911") },
+
+            // Cancel/Back Action
+            OutlinedButton(
+                onClick = onBack,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(64.dp),
+                    .height(56.dp)
+                    .padding(bottom = 8.dp),
                 shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Red, contentColor = Color.White)
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color.LightGray.copy(alpha = 0.5f))
             ) {
-                Icon(Icons.Default.Phone, contentDescription = null)
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(text = strings.callEmergencies, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text(
+                    text = strings.cancel,
+                    color = Color.Gray,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
             }
         }
     }

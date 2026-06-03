@@ -205,6 +205,13 @@ fun SearchBarSection() {
                 contentDescription = "Search",
                 tint = Color(0xFF007BFF)
             )
+            Spacer(modifier = Modifier.width(8.dp))
+            Icon(
+                imageVector = Icons.Default.Tune,
+                contentDescription = "Filter",
+                tint = Color(0xFF007BFF),
+                modifier = Modifier.clickable { }
+            )
         }
     }
 }
@@ -313,10 +320,10 @@ fun DepartmentsSection() {
         }
         Spacer(modifier = Modifier.height(16.dp))
         val departments = listOf(
-            strings.deptBrain to Icons.Default.Info,
+            strings.deptBrain to Icons.Default.Psychology,
             strings.deptCardiology to Icons.Default.Favorite,
-            strings.deptLung to Icons.Default.Face,
-            strings.deptKidney to Icons.Default.CheckCircle
+            strings.deptLung to Icons.Default.Air,
+            strings.deptKidney to Icons.Default.Medication
         )
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
@@ -443,6 +450,21 @@ fun PopularDoctorCard(name: String, specialty: String, onClick: () -> Unit) {
                 maxLines = 1,
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
             )
+            Spacer(modifier = Modifier.height(4.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Default.Star,
+                    contentDescription = null,
+                    tint = Color(0xFFFFB800),
+                    modifier = Modifier.size(14.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = "4.8",
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }

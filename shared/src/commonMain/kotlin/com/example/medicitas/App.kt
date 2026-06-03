@@ -60,7 +60,6 @@ fun App() {
                             "My doctor" -> PlaceholderScreen(strings.navMyDoctor)
                             "Chat" -> PlaceholderScreen(strings.navChat)
                             "Profile" -> PlaceholderScreen(strings.navProfile)
-                            "Emergency" -> EmergencyScreen(onBack = { currentScreen = "Main" })
                             else -> HomeScreen(
                                 onSeeAllDoctors = { currentScreen = "PopularDoctorsGrid" },
                                 onBookDoctor = { showBottomSheet = true },
@@ -68,6 +67,8 @@ fun App() {
                                 onLanguageChange = { currentLanguage = it }
                             )
                         }
+                    } else if (currentScreen == "Emergency") {
+                        EmergencyScreen(onBack = { currentScreen = "Main" })
                     } else if (currentScreen == "ReviewAndBook") {
                         ReviewAndBookScreen(onBack = { currentScreen = "Main" })
                     } else if (currentScreen == "PopularDoctorsGrid") {

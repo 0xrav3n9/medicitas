@@ -51,7 +51,7 @@ fun AppointmentScreen(onAppointmentClick: () -> Unit = {}) {
             "12 Nov, 2024 • 09:00 am",
             AppointmentStatus.APPROVED,
             strings.videoVisit,
-            Icons.Default.PlayArrow
+            Icons.Outlined.Videocam
         ),
         Appointment(
             strings.drMartinez,
@@ -59,7 +59,7 @@ fun AppointmentScreen(onAppointmentClick: () -> Unit = {}) {
             "14 Nov, 2024 • 10:30 am",
             AppointmentStatus.PENDING,
             strings.inPerson,
-            Icons.Default.Person
+            Icons.Outlined.Place
         )
     )
 
@@ -139,7 +139,7 @@ fun SearchAndFilterSection() {
         ) {
             IconButton(onClick = {}) {
                 Icon(
-                    imageVector = Icons.Default.Settings,
+                    imageVector = Icons.Default.Tune,
                     contentDescription = "Filter",
                     tint = Color.Gray,
                     modifier = Modifier.size(20.dp)

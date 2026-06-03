@@ -14,6 +14,8 @@ actual fun getPlatform(): Platform = AndroidPlatform()
 
 actual fun getSystemLanguage(): String = Locale.getDefault().language
 
+actual fun getCurrentTimeMillis(): Long = System.currentTimeMillis()
+
 private var androidContext: Context? = null
 
 fun setAndroidContext(context: Context) {
