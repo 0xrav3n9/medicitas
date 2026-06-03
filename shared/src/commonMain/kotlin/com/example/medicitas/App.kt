@@ -35,7 +35,8 @@ fun App() {
                     if (currentScreen == "Main") {
                         BottomNavigationBar(
                             selectedTab = currentTab,
-                            onTabSelected = { currentTab = it }
+                            onTabSelected = { currentTab = it },
+                            onEmergencyClick = { currentScreen = "Emergency" },
                         )
                     }
                 }
@@ -59,6 +60,7 @@ fun App() {
                             "My doctor" -> PlaceholderScreen(strings.navMyDoctor)
                             "Chat" -> PlaceholderScreen(strings.navChat)
                             "Profile" -> PlaceholderScreen(strings.navProfile)
+                            "Emergency" -> EmergencyScreen(onBack = { currentScreen = "Main" })
                             else -> HomeScreen(
                                 onSeeAllDoctors = { currentScreen = "PopularDoctorsGrid" },
                                 onBookDoctor = { showBottomSheet = true },
