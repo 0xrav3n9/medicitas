@@ -27,6 +27,7 @@ fun App() {
     var currentTab by remember { mutableStateOf("Home") }
     var currentScreen by remember { mutableStateOf("Main") }
     var showBottomSheet by remember { mutableStateOf(false) }
+    var selectedDoctorForChat by remember { mutableStateOf("") }
 
     CompositionLocalProvider(LocalStrings provides strings) {
         MaterialTheme {
@@ -58,7 +59,13 @@ fun App() {
                                 onAppointmentClick = { currentScreen = "AppointmentDetail" }
                             )
                             "My doctor" -> PlaceholderScreen(strings.navMyDoctor)
-                            "Chat" -> PlaceholderScreen(strings.navChat)
+                            "Chat" -> ChatListScreen(
+                                onChatClick = { currentScreen = "WaitingRoom" },
+                                onCompletedClick = { doctorName ->
+                                    selectedDoctorForChat = doctorName
+                                    currentScreen = "HistoricalChat"
+                                }
+                            )
                             "Profile" -> PlaceholderScreen(strings.navProfile)
                             else -> HomeScreen(
                                 onSeeAllDoctors = { currentScreen = "PopularDoctorsGrid" },
@@ -67,10 +74,30 @@ fun App() {
                                 onLanguageChange = { currentLanguage = it }
                             )
                         }
+                    } else if (currentScreen == "WaitingRoom") {
+                        WaitingRoomScreen(onBack = { currentScreen = "Main" })
+                    } else if (currentScreen == "HistoricalChat") {
+                        HistoricalChatScreen(
+                            doctorName = selectedDoctorForChat,
+                            onBack = { currentScreen = "Main" }
+                        )
                     } else if (currentScreen == "Emergency") {
-                        EmergencyScreen(onBack = { currentScreen = "Main" })
+                        EmergencyScreen(
+                            onBack = { currentScreen = "Main" },
+                            onEmergencySuccess = { currentScreen = "EmergencyVideoCall" }
+                        )
+                    } else if (currentScreen == "EmergencyVideoCall") {
+                        EmergencyVideoCallScreen(onEndCall = { currentScreen = "Main" })
                     } else if (currentScreen == "ReviewAndBook") {
-                        ReviewAndBookScreen(onBack = { currentScreen = "Main" })
+                        ReviewAndBookScreen(
+                            onBack = { currentScreen = "Main" },
+                            onBookSuccess = { currentScreen = "AppointmentSuccess" }
+                        )
+                    } else if (currentScreen == "AppointmentSuccess") {
+                        AppointmentSuccessScreen(onBackHome = { 
+                            currentScreen = "Main"
+                            currentTab = "Home"
+                        })
                     } else if (currentScreen == "PopularDoctorsGrid") {
                         PopularDoctorsGridScreen(
                             onBack = { currentScreen = "Main" },

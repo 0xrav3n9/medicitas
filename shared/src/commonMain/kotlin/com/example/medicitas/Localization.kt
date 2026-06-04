@@ -104,8 +104,45 @@ data class AppStrings(
     val emergencySubtitle: String,
     val helpMe: String,
     val cancel: String,
+    val mute: String,
+    val switchCamera: String,
+    val chat: String,
+    val endCall: String,
+    val emergencyDoctor: String,
+    val connecting: String,
     val requestAmbulance: String,
-    val callEmergencies: String
+    val callEmergencies: String,
+
+    // Appointment Success
+    val bookingSuccess: String,
+    val backToHome: String,
+    val addCalendar: String,
+    val healthCounseling: String,
+    val drSofia: String,
+
+    // Chat List
+    val chatsTitle: String,
+    val searchChat: String,
+    val upcomingAppointment: String,
+    val completedAppointment: String,
+    val lastMsgMendoza: String,
+    val lastMsgMartinez: String,
+    val lastMsgRodriguez: String,
+    val lastMsgLopez: String,
+    val yesterday: String,
+    val today: String,
+    val patientMsg1: String,
+    val doctorMsg1: String,
+    val patientMsg2: String,
+    val consultationEnded: String,
+
+    // Waiting Room
+    val waitingRoomTitle: String,
+    val startIn: String,
+    val leaveQuestion: String,
+    val waitingRoomExplanatory: String,
+    val addQuestions: String,
+    val typeSomething: String
 )
 
 val EnglishStrings = AppStrings(
@@ -198,8 +235,42 @@ val EnglishStrings = AppStrings(
     emergencySubtitle = "Press the button below and help will reach you soon.",
     helpMe = "HELP ME!",
     cancel = "CANCEL",
+    mute = "Mute",
+    switchCamera = "Switch Camera",
+    chat = "Chat",
+    endCall = "End Call",
+    emergencyDoctor = "Dr. Alejandro Mendoza (Emergency)",
+    connecting = "Connecting to emergency doctor...",
     requestAmbulance = "Request an ambulance",
-    callEmergencies = "Call emergencies"
+    callEmergencies = "Call emergencies",
+    
+    bookingSuccess = "Your appointment successfully booked!",
+    backToHome = "Back to home",
+    addCalendar = "Add calendar",
+    healthCounseling = "Health Counseling",
+    drSofia = "Dra. Sofía Rodríguez",
+    
+    chatsTitle = "Chats",
+    searchChat = "Search chat",
+    upcomingAppointment = "Upcoming appointment",
+    completedAppointment = "Completed appointment",
+    lastMsgMendoza = "Fine, I will check your condition...",
+    lastMsgMartinez = "Please send me your latest lab results.",
+    lastMsgRodriguez = "The prescription is ready for pickup.",
+    lastMsgLopez = "How are you feeling today?",
+    yesterday = "Yesterday",
+    today = "Today",
+    patientMsg1 = "Hello Doctor, I've been feeling a bit dizzy lately.",
+    doctorMsg1 = "I see. Have you been monitoring your blood pressure?",
+    patientMsg2 = "Yes, it was 120/80 this morning.",
+    consultationEnded = "This consultation has ended. View only mode.",
+    
+    waitingRoomTitle = "Waiting Room",
+    startIn = "Start in",
+    leaveQuestion = "Before we start, you can leave a question first.",
+    waitingRoomExplanatory = "For video visit appointments, you will not be able to start the chat before the appointment starts.",
+    addQuestions = "+ Add questions",
+    typeSomething = "Type something"
 )
 
 val SpanishStrings = AppStrings(
@@ -292,8 +363,42 @@ val SpanishStrings = AppStrings(
     emergencySubtitle = "Presiona el botón de abajo y la ayuda llegará pronto.",
     helpMe = "¡AYÚDAME!",
     cancel = "CANCELAR",
+    mute = "Silenciar",
+    switchCamera = "Cambiar Cámara",
+    chat = "Chat",
+    endCall = "Finalizar",
+    emergencyDoctor = "Dr. Alejandro Mendoza (Emergencias)",
+    connecting = "Conectando con el médico de emergencias...",
     requestAmbulance = "Solicitar una ambulancia",
-    callEmergencies = "Llamar a emergencias"
+    callEmergencies = "Llamar a emergencias",
+    
+    bookingSuccess = "¡Tu cita se ha reservado con éxito!",
+    backToHome = "Volver al inicio",
+    addCalendar = "Añadir al calendario",
+    healthCounseling = "Asesoramiento de salud",
+    drSofia = "Dra. Sofía Rodríguez",
+    
+    chatsTitle = "Chats",
+    searchChat = "Buscar chat",
+    upcomingAppointment = "Citas próximas",
+    completedAppointment = "Citas completadas",
+    lastMsgMendoza = "Bien, revisaré tu condición...",
+    lastMsgMartinez = "Por favor envíame tus últimos resultados.",
+    lastMsgRodriguez = "La receta está lista para recoger.",
+    lastMsgLopez = "¿Cómo te sientes hoy?",
+    yesterday = "Ayer",
+    today = "Hoy",
+    patientMsg1 = "Hola Doctor, me he sentido un poco mareado últimamente.",
+    doctorMsg1 = "Ya veo. ¿Ha estado monitoreando su presión arterial?",
+    patientMsg2 = "Sí, era 120/80 esta mañana.",
+    consultationEnded = "Esta consulta ha finalizado. Modo de solo lectura.",
+    
+    waitingRoomTitle = "Sala de Espera",
+    startIn = "Comienza en",
+    leaveQuestion = "Antes de empezar, puedes dejar una pregunta primero.",
+    waitingRoomExplanatory = "Para las citas virtuales, no podrás iniciar el chat antes de que comience la hora de la cita.",
+    addQuestions = "+ Añadir preguntas",
+    typeSomething = "Escribe algo..."
 )
 
 val LocalStrings = staticCompositionLocalOf { EnglishStrings }

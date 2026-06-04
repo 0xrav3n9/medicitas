@@ -23,7 +23,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 @Preview
-fun EmergencyScreen(onBack: () -> Unit = {}) {
+fun EmergencyScreen(onBack: () -> Unit = {}, onEmergencySuccess: () -> Unit = {}) {
     val strings = LocalStrings.current
     
     // Logic for long press (3 seconds)
@@ -38,8 +38,8 @@ fun EmergencyScreen(onBack: () -> Unit = {}) {
                 val elapsed = getCurrentTimeMillis() - startTime
                 progress = (elapsed / 3000f).coerceIn(0f, 1f)
                 if (progress >= 1f) {
-                    // Success: Only execute native interop after completion
-                    makePhoneCall("911")
+                    // Success: Navigate to Video Call
+                    onEmergencySuccess()
                     isPressing = false
                 }
                 delay(16) // ~60fps updates

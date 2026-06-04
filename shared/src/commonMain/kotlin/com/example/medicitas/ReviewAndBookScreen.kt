@@ -32,7 +32,7 @@ import org.jetbrains.compose.resources.painterResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun ReviewAndBookScreen(onBack: () -> Unit = {}) {
+fun ReviewAndBookScreen(onBack: () -> Unit = {}, onBookSuccess: () -> Unit = {}) {
     val strings = LocalStrings.current
     Scaffold(
         topBar = {
@@ -51,7 +51,7 @@ fun ReviewAndBookScreen(onBack: () -> Unit = {}) {
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
             )
         },
-        bottomBar = { FooterSection() }
+        bottomBar = { FooterSection(onBookClick = onBookSuccess) }
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
@@ -372,14 +372,14 @@ fun LegalTextSection() {
 }
 
 @Composable
-fun FooterSection() {
+fun FooterSection(onBookClick: () -> Unit = {}) {
     val strings = LocalStrings.current
     Surface(
         color = Color.White,
         shadowElevation = 8.dp
     ) {
         Button(
-            onClick = {},
+            onClick = onBookClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
